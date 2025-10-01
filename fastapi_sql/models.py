@@ -15,6 +15,5 @@ class Document(models.Model):
     id = fields.IntField(pk=True)
     content = fields.TextField()
 
-
     class Meta:
         table = "documents"

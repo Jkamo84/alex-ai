@@ -1,13 +1,11 @@
 from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI
-from pydantic import BaseModel
+from fastapi import FastAPI, HTTPException
 from models import User
-
+from pydantic import BaseModel
 from tortoise import Tortoise, generate_config
 from tortoise.contrib.fastapi import RegisterTortoise, tortoise_exception_handlers
-from fastapi import HTTPException
 
 
 @asynccontextmanager
@@ -18,7 +16,6 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
         testing=True,
         connection_label="models",
     )
-    print(config)
     async with RegisterTortoise(
         app=app,
         config=config,
