@@ -134,6 +134,27 @@ Nota: tambien se pueden instalar varios paquetes en serie si se tienen listados 
 pip install -r requirements.txt
 ```
 
+### Gestion de migraciones con aerich
+Para ligar lo que hace tortoise en el codigo con aerich y saber en que estado esta la db
+```bash
+aerich init -t path.to.your.settings.TORTOISE_ORM -p your_app_name.models
+```
+
+conectar con la db
+```bash
+aerich init-db
+```
+
+crear un nuevo archivo de migracion (se hace cuando un modelo nuevo se crea, o cuando se borra/modifica uno existente)
+```bash
+aerich migrate --name your_migration_name
+```
+
+aplicar las migraciones que esten pendientes
+```bash
+aerich upgrade
+```
+
 ## **Consumir csv/excel con pandas/csv**
 - crear un archivo .py
 - uso de modulo `csv` para leer archivo .csv
