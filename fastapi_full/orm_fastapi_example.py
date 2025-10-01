@@ -2,13 +2,12 @@ import os
 from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI
-
-# from routers import router as users_router
-
 from examples.fastapi.config import register_orm
+from fastapi import FastAPI
 from tortoise import Tortoise, generate_config
 from tortoise.contrib.fastapi import RegisterTortoise, tortoise_exception_handlers
+
+# from routers import router as users_router
 
 
 @asynccontextmanager
