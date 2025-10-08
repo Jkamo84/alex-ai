@@ -59,5 +59,7 @@ async def create_chat(chat_in: ChatIn):
 
 @app.post("/message/")
 async def execute_message(message: str):
+    # llamar a n8n con {a:b}
+    # de la respuesta guardar en db
     response = call_genai(message)
     return response

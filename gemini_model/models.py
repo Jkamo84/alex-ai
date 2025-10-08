@@ -16,3 +16,8 @@ class MyAbstractBaseModel(Model):
 
 class Chat(TimestampMixin, MyAbstractBaseModel):
     name = fields.CharField(20, null=True)
+    messages = fields.ForeignField("models.message")
+
+
+class Message(TimestampMixin, MyAbstractBaseModel):
+    content = fields.TextField(null=True)

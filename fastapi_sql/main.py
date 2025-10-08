@@ -13,7 +13,7 @@ from tortoise.contrib.fastapi import RegisterTortoise, tortoise_exception_handle
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     config = generate_config(
-        "sqlite://data/alex.db",
+        "sqlite://data/alex.db",# "postgres://username@password/alex-db:5432"
         app_modules={"models": ["models"]},
         testing=True,
         connection_label="models",
@@ -43,6 +43,9 @@ class UserIn(BaseModel):
     email: str
     password: str
 
+    # def validate_field(self, password):
+    #     pass
+
 
 @app.post("/users/")
 async def create_user(user_in: UserIn):
@@ -64,9 +67,12 @@ async def read_user(user_id: int):
 
 @app.post("/own-model/")
 async def call_own_model(message: str):
-    requests.post(f"{OWN_MODEL_URL}/something", data={"message": message})
+    # revisar si si vale la pena llamar a AI
+    response = requests.post(f"{OWN_MODEL_URL}/something", data={"message": message})
+    return response
 
 
 @app.post("/gemini/")
 async def call_gemini(message: str):
-    requests.post(f"{GEMINI_URL}/something", data={"message": message})
+    response = requests.post(f"{GEMINI_URL}/something", data={"message": message})
+    return response

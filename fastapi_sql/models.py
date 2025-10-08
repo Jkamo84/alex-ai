@@ -22,8 +22,7 @@ class User(TimestampMixin, MyAbstractBaseModel):
         table = "users"
 
 
-class Document(models.Model):
-    id = fields.IntField(pk=True)
+class Document(TimestampMixin, MyAbstractBaseModel):
     content = fields.TextField()
 
     class Meta:

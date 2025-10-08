@@ -15,21 +15,22 @@ scrapping de plataformas informativas
 aqlimentar con DBs/docs
 
 ## Pendientes
-- conectar con gemini
-- crear webhook
+- [X] conectar con gemini
+- [ ] crear webhook
 
-- manejo Sqlite
-- manejo mongoDB
+- [X] manejo Sqlite
+- [ ] manejo mongoDB
+- [ ] tensorflow
 
-- webhook con n8n
-- extraccion de actualicese.com
-- entrenar un modelo (actualicese.com)
+- [X] webhook con n8n
+- [ ] extraccion de actualicese.com
+- [ ] entrenar un modelo (actualicese.com)
 
-- GCP
-- auth
-- github
-- crear un modelo
-- tortoise-orm
+- [ ] GCP
+- [ ] auth
+- [X] github
+- [X] crear un modelo
+- [X] tortoise-orm
 
 ## **Intro a Python**
 - basado en C
