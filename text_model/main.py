@@ -1,11 +1,9 @@
 from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
 
-import requests
 from fastapi import FastAPI, HTTPException
 from models import User
 from pydantic import BaseModel
-from settings import GEMINI_URL, OWN_MODEL_URL
 from tortoise import Tortoise, generate_config
 from tortoise.contrib.fastapi import RegisterTortoise, tortoise_exception_handlers
 
@@ -60,13 +58,3 @@ async def read_user(user_id: int):
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
     return {"id": user.id, "username": user.username, "email": user.email}
-
-
-@app.post("/own-model/")
-async def call_own_model(user_id: int):
-    requests.post(f"{OWN_MODEL_URL}/something", data={})
-
-
-@app.post("/gemini/")
-async def call_gemini(user_id: int):
-    requests.post(f"{GEMINI_URL}/something", data={})
