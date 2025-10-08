@@ -63,10 +63,10 @@ async def read_user(user_id: int):
 
 
 @app.post("/own-model/")
-async def call_own_model(user_id: int):
-    requests.post(f"{OWN_MODEL_URL}/something", data={})
+async def call_own_model(message: str):
+    requests.post(f"{OWN_MODEL_URL}/something", data={"message": message})
 
 
 @app.post("/gemini/")
-async def call_gemini(user_id: int):
-    requests.post(f"{GEMINI_URL}/something", data={})
+async def call_gemini(message: str):
+    requests.post(f"{GEMINI_URL}/something", data={"message": message})

@@ -16,6 +16,3 @@ TORTOISE_ORM = {
         }
     },
 }
-
-
-API_KEY = "fake_key"

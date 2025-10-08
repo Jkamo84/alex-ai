@@ -2,7 +2,8 @@ from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, HTTPException
-from models import User
+from models import Chat
+from model_handler import SimpleChatbot
 from pydantic import BaseModel
 from tortoise import Tortoise, generate_config
 from tortoise.contrib.fastapi import RegisterTortoise, tortoise_exception_handlers
@@ -11,7 +12,7 @@ from tortoise.contrib.fastapi import RegisterTortoise, tortoise_exception_handle
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     config = generate_config(
-        "sqlite://data/alex.db",
+        "sqlite://data/own_model.db",
         app_modules={"models": ["models"]},
         testing=True,
         connection_label="models",
@@ -30,31 +31,38 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
 
 
 app = FastAPI(
-    title="Tortoise ORM FastAPI example",
+    title="Own text model",
     lifespan=lifespan,
     exception_handlers=tortoise_exception_handlers(),
 )
 
 
-class UserIn(BaseModel):
-    username: str
-    email: str
-    password: str
+class ChatIn(BaseModel):
+    name: str
 
 
-@app.post("/users/")
-async def create_user(user_in: UserIn):
-    user = await User.create(
-        username=user_in.username,
-        email=user_in.email,
-        password_hash=user_in.password,  # In a real app, hash this password
+@app.get("/chat/")
+async def get_chat_by_id(id: str):
+    chat = await Chat.get_or_none(id=id)
+    if not chat:
+        raise HTTPException(status_code=404, detail="Chat not found")
+    return {"id": chat.id, "name": chat.name}
+
+
+@app.post("/chat/")
+async def create_chat(chat_in: ChatIn):
+    chat = await Chat.create(
+        name=chat_in.username,
     )
-    return {"id": user.id, "username": user.username, "email": user.email}
+    return {"id": chat.id}
 
 
-@app.get("/users/{user_id}")
-async def read_user(user_id: int):
-    user = await User.get_or_none(id=user_id)
-    if not user:
-        raise HTTPException(status_code=404, detail="User not found")
-    return {"id": user.id, "username": user.username, "email": user.email}
+chatbot = SimpleChatbot(
+    model_path="./chatbot_model.h5", tokenizer_path="./tokenizer.pkl"
+)
+
+
+@app.post("/message/")
+async def execute_message(message: str):
+    response = chatbot.generate_response(message)
+    return response
