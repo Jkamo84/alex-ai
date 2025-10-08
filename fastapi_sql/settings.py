@@ -16,3 +16,6 @@ TORTOISE_ORM = {
         }
     },
 }
+
+OWN_MODEL_URL = "http://localhost:5000"
+GEMINI_URL = "http://localhost:6000"
